@@ -38,6 +38,7 @@ In the root of your project:
 
 ```typescript
 import { BugsnagModule } from 'nestjs-bugsnag';
+import BugsnagPluginExpress from '@bugsnag/plugin-express'
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { BugsnagModule } from 'nestjs-bugsnag';
       apiKey: '<your-api-key>',
       releaseStage: 'production',
       appVersion: '1.0.0',
+      plugins: [BugsnagPluginExpress],
       notifyReleaseStages: ['production'],
       onUncaughtException: true,
       onUnhandledRejection: true,
@@ -55,5 +57,51 @@ export class AppModule {
 }
 ```
 
+You can add the `BugsnagPluginExpress` to your `plugins` array in the `forRoot` method.
+
+You can also use the `forRootAsync` method to configure the module:
+
+```typescript
+import { Module } from '@nestjs/common';
+import { BugsnagModule } from 'nestjs-bugsnag';
+import { ConfigModule } from '@nestjs/config';
+
+@Module({
+  imports: [
+    ConfigModule.forRoot({
+      ...
+    }),
+    BugsnagModule.forRootAsync({
+      inject: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        apiKey: configService.get('BUGSNAG_API_KEY'),
+        releaseStage: configService.get('BUGSNAG_RELEASE_STAGE'),
+        appVersion: configService.get('BUGSNAG_APP_VERSION'),
+        notifyReleaseStages: configService.get('BUGSNAG_NOTIFY_RELEASE_STAGES'),
+        onUncaughtException: configService.get('BUGSNAG_ON_UNCAUGHT_EXCEPTION'),
+        onUnhandledRejection: configService.get('BUGSNAG_ON_UNHANDLED_REJECTION'),
+      }),
+    }),
+  ],
+})
+```
+
 More options are found in [Bugsnag docs](https://docs.bugsnag.com/platforms/javascript/configuration-options/)
+
+You can inject the `BugsnagService` to use it in your application:
+
+```typescript
+import { BugsnagService } from 'nestjs-bugsnag';
+
+@Controller()
+export class AppController {
+  constructor(private readonly bugsnagService: BugsnagService) {
+  }
+
+  failingMethod() {
+    this.bugsnagService.notify(new Error('Something went wrong'));
+  }
+}
+```
+
 
