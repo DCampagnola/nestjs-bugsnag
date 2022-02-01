@@ -32,3 +32,28 @@
 $ npm install --save nestjs-bugsnag @bugsnag/js
 ```
 
+## Usage
+
+In the root of your project:
+
+```typescript
+import { BugsnagModule } from 'nestjs-bugsnag';
+
+@Module({
+  imports: [
+    BugsnagModule.forRoot({
+      apiKey: '<your-api-key>',
+      releaseStage: 'production',
+      appVersion: '1.0.0',
+      notifyReleaseStages: ['production'],
+      onUncaughtException: true,
+      onUnhandledRejection: true,
+    }),
+  ],
+})
+export class AppModule {
+}
+```
+
+More options are found in [Bugsnag docs](https://docs.bugsnag.com/platforms/javascript/configuration-options/)
+
