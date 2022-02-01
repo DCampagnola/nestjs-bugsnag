@@ -1,8 +1,6 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
-import * as request from 'supertest';
-import BugsnagModule from '../src/bugsnag.module';
-import BugsnagService from '../src/bugsnag.service';
+import { Test } from '@nestjs/testing';
+import { BugsnagModule } from '../src/bugsnag.module';
+import { BugsnagService } from '../src/bugsnag.service';
 
 describe('Bugsnag (e2e)', () => {
   let bugsnagService: BugsnagService;

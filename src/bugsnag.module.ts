@@ -4,12 +4,12 @@ import {
   Module,
   Provider,
 } from '@nestjs/common';
-import BugsnagService from './bugsnag.service';
+import { BugsnagService } from './bugsnag.service';
 import bugsnag from '@bugsnag/js';
 import { Config } from '@bugsnag/js';
 
 @Module({})
-export default class BugsnagModule {
+export class BugsnagModule {
   static forRoot(options: Config): DynamicModule {
     const bugsnagService = {
       provide: BugsnagService,
