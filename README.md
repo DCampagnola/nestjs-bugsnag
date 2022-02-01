@@ -29,6 +29,6 @@
 ## Installation
 
 ```bash
-$ npm install --save nestjs-bugsnag
+$ npm install --save nestjs-bugsnag @bugsnag/js
 ```
 
