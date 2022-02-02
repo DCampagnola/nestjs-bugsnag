@@ -72,7 +72,8 @@ import { ConfigModule } from '@nestjs/config';
       ...
     }),
     BugsnagModule.forRootAsync({
-      inject: [ConfigModule],
+      inject: [ConfigService],
+      imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         apiKey: configService.get('BUGSNAG_API_KEY'),
         releaseStage: configService.get('BUGSNAG_RELEASE_STAGE'),

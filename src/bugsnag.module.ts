@@ -2,11 +2,13 @@ import {
   DynamicModule,
   FactoryProvider,
   Module,
+  ModuleMetadata,
   Provider,
 } from '@nestjs/common';
 import { BugsnagService } from './bugsnag.service';
 import bugsnag from '@bugsnag/js';
 import { Config } from '@bugsnag/js';
+import { ModuleFactory } from '@nestjs/core/injector/compiler';
 
 @Module({})
 export class BugsnagModule {
@@ -36,6 +38,7 @@ export class BugsnagModule {
     };
     return {
       module: BugsnagModule,
+      imports: options.imports,
       providers: [
         {
           provide: 'BugsnagOptions',
@@ -52,4 +55,5 @@ export class BugsnagModule {
 export type AsyncFactoryProvider<T> = Pick<
   FactoryProvider<T>,
   'useFactory' | 'inject'
->;
+> &
+  Pick<ModuleMetadata, 'imports'>;
