@@ -6,6 +6,7 @@
   "main": "index.js",
   "private": false,
   "license": "MIT",
+  "repository": "github:DCampagnola/nestjs-bugsnag",
   "keywords": [
     "bugsnag",
     "nestjs",
