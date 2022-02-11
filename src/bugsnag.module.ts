@@ -52,8 +52,7 @@ export class BugsnagModule {
   }
 }
 
-export type AsyncFactoryProvider<T> = Pick<
-  FactoryProvider<T>,
-  'useFactory' | 'inject'
-> &
-  Pick<ModuleMetadata, 'imports'>;
+export type AsyncFactoryProvider<T> = Required<
+  Pick<FactoryProvider<T>, 'useFactory' | 'inject'> &
+    Pick<ModuleMetadata, 'imports'>
+>;

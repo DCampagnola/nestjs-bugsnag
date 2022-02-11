@@ -1,26 +1,45 @@
 import { Test } from '@nestjs/testing';
 import { BugsnagModule } from '../src/bugsnag.module';
 import { BugsnagService } from '../src/bugsnag.service';
+import bugsnag, { Config } from '@bugsnag/js';
+
+jest.mock('@bugsnag/js');
 
 describe('Bugsnag async (e2e)', () => {
-  let bugsnagService: BugsnagService;
+  it('it should notify an error with an injected module', async () => {
+    class TestModule {}
 
-  beforeEach(async () => {
+    class TestProvider {
+      value = 'test';
+    }
+
+    const testProvider = {
+      provide: TestProvider,
+      useFactory: () => new TestProvider(),
+    };
     const moduleFixture = await Test.createTestingModule({
       imports: [
         BugsnagModule.forRootAsync({
-          useFactory: () => ({
-            apiKey: 'test-api-key',
-            enabled: true,
+          imports: [
+            {
+              module: TestModule,
+              exports: [testProvider],
+              providers: [testProvider],
+            },
+          ],
+          useFactory: (testProvider: TestProvider) => ({
+            apiKey: testProvider.value,
+            appVersion: '10',
           }),
+          inject: [TestProvider],
         }),
       ],
     }).compile();
-    bugsnagService = moduleFixture.get(BugsnagService);
     await moduleFixture.init();
-  });
-
-  it('it should notify an error', () => {
-    bugsnagService.notify(new Error());
+    const config: Partial<Config> = {
+      apiKey: 'test',
+      appVersion: '10',
+    };
+    expect(bugsnag.start).toBeCalledWith(config);
   });
 });
