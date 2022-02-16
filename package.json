@@ -1,6 +1,6 @@
 {
   "name": "nestjs-bugsnag",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A bugsnag library wrapper for nestjs",
   "author": "dcampagnola",
   "main": "index.js",
