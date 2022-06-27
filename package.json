@@ -26,11 +26,11 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "peerDependencies": {
-    "@bugsnag/js": "^7.16.7",
-    "@nestjs/common": "^8.4.6",
-    "@nestjs/core": "^8.4.6",
-    "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.5.5"
+    "@bugsnag/js": "*",
+    "@nestjs/common": "*",
+    "@nestjs/core": "*",
+    "reflect-metadata": "*",
+    "rxjs": "*"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
